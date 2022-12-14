@@ -4,14 +4,44 @@
 We found that prediction models based on a combination of activations, FLOPs, and input sizes provide accurate prediction of latency and require little time to learn. They are easy to use, and take runtime implementations into account. Based on these findings, we developed a **latency predictor based on low-overhead profiling using micro-benchmarks** to minimize the performance modeling overhead.
 
 ---
-## Extracted Features
+## Underlying idea
+We found that the latency of a block within a convolutional neural network is determined by the summed up input sizes, output sizes and the computational effort of all occurring convolutional operations. In other words, the **latency of a block is defined by the time to fetch the input, the time to write the output and the computation time** of the containing convolutional operations. The **influence of each term has to be learned by means of training data**.
+This leads us to our developed linear formula for runtime prediction of blocks in convolutional neural networks:
 
-* total number of multiply–accumulate operations (MAC)
-* total number of parameters
-* inference memory
-* memory read & write during inference
-* disk storage
-* duration ratio
+$$LATENCY = a * ACTS + b * INP + c * FLOPs + d$$
+
+*ACTS: Number of activations* </br>
+*INP: Size of input tensors* </br>
+*FLOPs: Number of floating point operations* </br>
+
+The parameters a, b, c and d are used to weight the individual factors activations, input size and floating point operations specific to the hardware. In this way we are able to identify whether a hardware is memory bound (strong weighting on input size and activations) or computional bound (stronger weighting on FLOPs).
+
+To learn the hardware specific factors a, b, c and d, our micro benchmark tool collects 100 data points by running a predefined set of blocks on the target device and gathering all the necessary data. Using machine learning methods, our algorithm learns two regression models. 
+
+We find that our model provides accurate predictions especially in the high latency region. In the low latency range, there is more variance, because at low utilization of the computational units, small interferences have a larger relative effect on the runtime. For this reason, we learn a total of two regression models, one for the low latency range and one for the high latency range.
+The low-latency regression model is defined by a fitted slope, offset, and breakpoint applied to the initial prediction (which comes from the high-latency model).
+
+Once the prediction model has been trained, predictions can be made by performing the following calculation:
+
+**initial prediction = a \* ACTS + b \* INP + c \* FLOPs + d </br>**
+**Holds initial prediction < breakpoint?**
+* Yes: **predicted latency = latency * initial prediction = offset**
+* No: **predicted latency = initial prediction**
+
+
+---
+## Possible Use Cases
+
+### Bottleneck Analysis & Optimization
+Since our latency predictor can predict the runtime of individual blocks in convolutional neural networks, it serves very well for **bottleneck analysis**. Using our latency predictor, individual blocks with high latencies can be identified and optimized.
+<p align = "center">
+<img src = "Images/loop optimizing cnns.jpg">
+</p>
+
+### Designing Latency Optimized CNN
+<p align = "center">
+<img src = "Images/FBNet.PNG">
+</p>
 
 ---
 ## How to use
