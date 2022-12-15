@@ -53,7 +53,7 @@ Since our latency predictor can predict the runtime of individual blocks in conv
 ### Designing Latency Optimized CNN
 Once our Latency Predictor is trained on a target device, it can make predictions about the latency of a CNN independently of the target device. This makes it especially useful for the **automated design of CNN architectures**.
 
-The following diagram shows the FBNet **NAS framework**, which is used to find latency-efficient design architectures of artificial neural networks.
+The following diagram shows the FBNet **NAS framework**, which is used to find latency-efficient design architectures of artificial neural networks from scratch.
 In experiments, we succeeded in replacing the target device with our latency predictor. This way the runtimes of single blocks can be predicted and do not have to be executed and benchmarked individually on the target device. 
 
 
