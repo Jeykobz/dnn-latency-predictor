@@ -25,7 +25,7 @@ Once the prediction model has been trained, predictions can be made by performin
 
 **initial prediction = a \* ACTS + b \* INP + c \* FLOPs + d </br>**
 **Holds initial prediction < breakpoint?**
-* Yes: **predicted latency = latency * initial prediction = offset**
+* Yes: **predicted latency = latency * initial prediction * offset**
 * No: **predicted latency = initial prediction**
 
 
