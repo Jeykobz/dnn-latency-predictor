@@ -30,6 +30,18 @@ Once the prediction model has been trained, predictions can be made by performin
 
 
 ---
+## How to use
+* Download the repository
+* Load the latency predictor on your target device for which you want to create the latency model
+* Move to the corresponding location of the micro predictor and run it using the following command
+```bash
+$ python learn_model.py [gpu/cpu]
+```
+* Specify whether you want to perform benchmarks on your CPU or GPU by passing gpu or cpu as parameter
+* *Wait a few minutes while the model is created....*
+* After the predictive model is successfully learned, a .json file is created that contains all the required model parameters 
+
+---
 ## Possible Use Cases
 
 ### Bottleneck Analysis & Optimization
@@ -50,22 +62,6 @@ In experiments, we succeeded in replacing the target device with our latency pre
 Source: https://nni.readthedocs.io/en/v2.3/NAS/FBNet.html
 </p>
 
-
----
-## How to use
-
-### Python-Fire:
-If the dnn exists as a script, it is possible to run the dnn analyzer via pytorch-fire:
-```bash
-$ python runner.py --file=example_net.py --model=ExampleNetV2 --input=[3, 224, 224] --batch=1
-```
-Specifying values for input and batch size is optional. Default is input=[3, 224, 224], batch=1.
-
-### Running the analyzer by importing it as a module
-* Download the the DNN analyzer and unzip the folder
-* The calling file must import the model_analysis file as below
-* Start the analysis process by creating a new instance of ModelAnalyse passing the model to analyze, the input shape and batch size:
-  model_analysis.ModelAnalyse(model, ([CHANNELS], [HEIGHT], [WIDTH]), [BATCH_SIZE])
 
 ---
 ## Example
