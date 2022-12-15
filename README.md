@@ -90,43 +90,11 @@ Each point represents a sample from the collected test data set, which contains 
 <img src = "Images/A100 results.svg">
 </p>
 
-Our prediction model for the Nvidia A100 GPU achieves **low median errors** of 
+Our prediction model for the Nvidia A100 GPU achieves **low median relative errors** of 
 * **20.87%** in the low latency range (<2ms) 
 * **9.46%** in the high latency range (>2ms)
 
 as well as a high **correlation of 0.98** between the actual and the predicted latency and a **R-squared value of 0.96**.
-
----
-## Supported Layers
-
-* ReLU, ReLU6, PReLU, LeakyReLU
-* Conv1d, Conv2d, Conv3d
-* MaxPool1d, MaxPool2d, MaxPool3d, AvgPool1d, AvgPool2d, AvgPool3d
-* AdaptiveMaxPool1d, AdaptiveMaxPool2d, AdaptiveMaxPool3d, AdaptiveAvgPool1d, AdaptiveAvgPool2d, AdaptiveAvgPool3d
-* BatchNorm1d, BatchNorm2d, BatchNorm3d
-* Linear
-
----
-## Formulas
-
-| Layer        | Computation | #parameters  | memory read | memory write | inference memory | disk storage |
-| ------------- |:-------------:| -----:| -----:| -----:| -----:| -----:|
-| FC      |   I x J | (I + 1) × J  | #params + Cout x Hout x Wout x bpe* | Cout x Hout x Wout x bpe*  | [1*] | [2*] |
-| conv      | K × K × Cin × (Hout / stride_y) × (Wout / stride_x) × (Cout / groups)  |   K × K × Cin × Cout | #params + Cout x Hout x Wout x bpe* | Cout x Hout x Wout x bpe* | [1*] | [2*] |
-| pool   |   Cin x Hin x Win | 0  | Cin x Hin x Win x bpe* | Cout x Hout x Wout x bpe* | [1*] | [2*] |
-| bn   |   Cin x Hin x Win ( x 2 *if learnable affine params*) | inp.dims * Cin  | 2 * Cin + Cout x Hout x Wout x bpe* | Cout x Hout x Wout x bpe* | [1*] | [2*] |
-| relu |  Cin * Hin * Win | (*if PReLU:* Cin * Hin * Win ) *otherwise:* 0 | Cin x Hin x Win x bpe* | (*if PReLU:* #params x ) Cin x Hin x Win x bpe* | [1*] | [2*] |
-
-bpe*: bytes per element,  [1*]: *Cout x Hout x Wout x bytes_per_elem*,  [2*]: *#params x bytes_per_param*
-
----
-## Requirements
-
-* tabulate ~= 0.8.9
-* python ~= 3.6
-* torch ~= 1.8.1 + cu111
-* NumPy ~= 1.20.3
-* python-fire ~= 0.4.0
 
 ---
 ## Authors
@@ -134,30 +102,6 @@ bpe*: bytes per element,  [1*]: *Cout x Hout x Wout x bytes_per_elem*,  [2*]: *#
 * [Jakob Michel Stock](https://github.com/Jeykobz) Student research assistant at the laboratory for Parallel Programming at TU Darmstadt
 * [Arya Mazaheri](https://github.com/aryamazaheri) Research associate at the laboratory for Parallel Programming at TU Darmstadt
 * [Tim Beringer](https://github.com/tiberi) Research associate at the laboratory for Parallel Programming at TU Darmstadt
-
----
-## Some benchmarks
-
-Model               | Input Resolution | Params(M) | Storage(MB) | inference memory(MB) | Memory Read+Write | MACs(G)     
----                 |---               |---        |---          |---          					|---								|---
-alexnet							| (3, 224, 224)		 | 61,1			 | 233				 | 4,19									| 241,86						| 0,649
-densenet121					| (3, 224, 224)		 | 7,98			 | 30,4				 | 147,1								| 359,71						| 2,79
-densenet201					| (3, 224, 224)		 | 20 			 | 76,35			 | 219,59								| 581,5 						| 4,28
-resnet18						| (3, 224, 224)		 | 11,69		 | 44,59			 | 28,53								| 102,88 						| 1,59
-resnet50						| (3, 224, 224)		 | 25,56		 | 97,49			 | 122,2								| 342,89 						| 3,54
-mobilenet_v2				| (3, 224, 224)		 | 3,5			 | 13,37			 | 74,25								| 162,19 						| 0,31
-mobilenet_v3_small	| (3, 224, 224)		 | 2,54			 | 9,7				 | 16,2									| 35,46							| 0,054
-mobilenet_v3_large	| (3, 224, 224)		 | 5,48			 | 20,92			 | 50,4									| 106,34						| 0,22
-vgg11								| (3, 224, 224)		 | 132,9		 | 506,83			 | 62,69								| 632,59						| 7,62
-vgg11_bn						| (3, 224, 224)		 | 132,9		 | 506,85			 | 91,02								| 689,27						| 7,64
-vgg16								| (3, 224, 224)		 | 138,4		 | 527,79			 | 109,39								| 746,95						| 15,49
-vgg16_bn						| (3, 224, 224)		 | 138,4		 | 527,82			 | 161,07								| 850,35						| 15,52
-vgg19								| (3, 224, 224)		 | 143,7		 | 548,05			 | 119,34								| 787,12						| 19,65
-vgg19_bn						| (3, 224, 224)		 | 143,7		 | 548,09			 | 176									| 900,47						| 19,68
-
-
-
-
 
 ---
 ## References
