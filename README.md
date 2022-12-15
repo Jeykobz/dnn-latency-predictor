@@ -102,13 +102,7 @@ as well as a high **correlation of 0.98** between the actual and the predicted l
 ---
 ## References
 
-We have studied many different existing neural network analyzers to understand and benefit from their approaches.
-
-Thanks to [@Swall0w](https://github.com/Swall0w) and [@sovrasov](https://github.com/sovrasov) who already implemented and published neural network analyzers.
-
-* [flops-counter-pytorch](https://github.com/sovrasov/flops-counter.pytorch) -> we benefited from the initial version of the calculation of the computational requirements 
-* [torchstat](https://github.com/Swall0w/torchstat) -> we took advantage of the initial version of the memory usage calculation and the approach of modifying the calling functions of the layers to be able to analyze them during inference
-
-Other work from which we benefited:
-* [How fast is my model?](https://machinethink.net/blog/how-fast-is-my-model/) -> blog post about predicting computational requirements of neural networks
-* [Neural-Network-Analyser](https://github.com/rohitramana/Neural-Network-Analyser) -> neural network analyzer by [@rohitramana](https://github.com/rohitramana)
+We have studied many different existing neural network latency predictors to understand and benefit from their approaches.<br />
+We have been most influenced by these two approaches:
+* [nn-meter](https://github.com/microsoft/nn-Meter) -> divides the entire model inference into so-called kernels on a device and performs kernel-level predictions 
+* [PALEO: A PERFORMANCE MODEL FOR DEEP NEURAL NETWORKS](https://openreview.net/pdf?id=SyVVJ85lg) -> splits the total execution time into computation time and communication time
