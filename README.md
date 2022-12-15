@@ -82,7 +82,7 @@ The following graph shows the performance of the learned latency prediction mode
 Each point represents a sample from the collected test data set, which contains a total of over 17000 data points. The yellow line indicates the predicted latencies.
 
 <p align = "center">
-<img src = "Images/A100 results.png">
+<img src = "Images/A100 results.svg">
 </p>
 
 Our prediction model for the Nvidia A100 GPU achieves **low median errors** of 
