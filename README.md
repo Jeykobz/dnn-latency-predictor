@@ -69,44 +69,28 @@ Specifying values for input and batch size is optional. Default is input=[3, 224
 
 ---
 ## Example
+In the following example we learn a latency predictor for the Nvidia A100 80GB GPU.<br />
 
-MobileNet_v2 analyzed with the dnn analyzer:
+Initially, our model collects a training data set by running our developed micro benchmarking tool.<br />
+By using machine learning methods, our algorithm automatically trains regression models based on the collected micro training dataset.
 
-```python
-from dnn_analyzer import model_analysis
-from torchvision import models
+<p align = "center">
+<img src = "Images/CMD output image.png">
+</p>
 
-model = models.mobilenet_v2()
-model_analysis.ModelAnalyse(model, (3, 224, 224))
-```
-output:
-```bash
-+---------------+--------------+-----------------+------------------+----------------+------------------+---------------+---------------+
-| module name   |   parameters |   mem read (MB) |   mem write (MB) |   storage (MB) |   inference (MB) |   MACs (Mega) | duration[%]   |
-|---------------+--------------+-----------------+------------------+----------------+------------------+---------------+---------------|
-| Conv2d        |          864 |           0.578 |            1.531 |          0.003 |            1.531 |         2.71  | 1.37 %        |
-| BatchNorm2d   |           64 |           1.531 |            1.531 |          0     |            1.531 |         0.803 | 0.64 %        |
-| ReLU6         |            0 |           1.531 |            1.531 |          0     |            1.531 |         0.401 | 0.66 %        |
-| Conv2d        |          288 |           1.532 |            1.531 |          0.001 |            1.531 |         3.613 | 0.79 %        |
-| BatchNorm2d   |           64 |           1.531 |            1.531 |          0     |            1.531 |         0.803 | 0.59 %        |
-| ReLU6         |            0 |           1.531 |            1.531 |          0     |            1.531 |         0.401 | 0.46 %        |
-| Conv2d        |          512 |           1.533 |            0.766 |          0.002 |            0.766 |         6.423 | 0.81 %        |
-(... shortened to make the doc more readable ...)
-| ReLU6         |            0 |           0.179 |            0.179 |          0     |            0.179 |         0.047 | 0.81 %        |
-| Conv2d        |       307200 |           1.351 |            0.06  |          1.172 |            0.06  |        15.053 | 0.81 %        |
-| BatchNorm2d   |          640 |           0.062 |            0.06  |          0.002 |            0.06  |         0.031 | 0.76 %        |
-| Conv2d        |       409600 |           1.622 |            0.239 |          1.562 |            0.239 |        20.07  | 0.81 %        |
-| BatchNorm2d   |         2560 |           0.249 |            0.239 |          0.01  |            0.239 |         0.125 | 0.81 %        |
-| ReLU6         |            0 |           0.239 |            0.239 |          0     |            0.239 |         0.063 | 0.43 %        |
-| Dropout       |            0 |           0     |            0     |          0     |            0.005 |         0     | 0.53 %        |
-| Linear        |      1281000 |           4.887 |            0.004 |          4.887 |            0.004 |         1.28  | 0.66 %        |
-+---------------+--------------+-----------------+------------------+----------------+------------------+---------------+---------------+
-Total Storage:  13.37 MB
-Total Parameters:  3504872
-Total inference memory:  74.25 MB
-Total number of Macs:  308.87 MMAC
-Total Memory Read + Write:  162.19 MB
-```
+The following graph shows the performance of the learned latency prediction model for the Nvidia A100 80GB GPU.<br /> 
+Each point represents a sample from the collected test data set, which contains a total of over 17000 data points. The yellow line indicates the predicted latencies.
+
+<p align = "center">
+<img src = "Images/A100 results.png">
+</p>
+
+Our prediction model for the Nvidia A100 GPU achieves **low median errors** of 
+* **20.87%** in the low latency range (<2ms) 
+* **9.46%** in the high latency range (>2ms)
+
+as well as a high **correlation of 0.98** between the actual and the predicted latency and a **R-squared value of 0.96**.
+
 ---
 ## Supported Layers
 
