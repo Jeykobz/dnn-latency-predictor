@@ -4,7 +4,7 @@
 We found that prediction models based on a combination of activations, FLOPs, and input sizes provide accurate prediction of latency and require little time to learn. They are easy to use, and take runtime implementations into account. Based on these findings, we developed a **latency predictor based on low-overhead profiling using micro-benchmarks** to minimize the performance modeling overhead.
 
 ---
-## Underlying idea
+## Underlying Idea
 We found that the latency of a block within a convolutional neural network is determined by the summed up input sizes, output sizes and the computational effort of all occurring convolutional operations. In other words, the **latency of a block is defined by the time to fetch the input, the time to write the output and the computation time** of the containing convolutional operations. The **influence of each term has to be learned by means of training data**.
 This leads us to our developed linear formula for runtime prediction of blocks in convolutional neural networks:
 
