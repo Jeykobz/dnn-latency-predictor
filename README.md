@@ -1,5 +1,5 @@
 # Low-Overhead Latency Predictor
-***!!!The following readme file contains only a small sample of preliminary experiments and research results. Detailed explanations and results of our experiments will be published at an IEEE conference early next year!!!***
+***!!!The following readme file contains only a small sample of preliminary experiments and research results. Detailed explanations and results of our experiments will be published at IEEE Sopuercomputing 2023 conference in Denver!!!***
 
 We found that prediction models based on a combination of activations, FLOPs, and input sizes provide accurate prediction of latency and require little time to learn. They are easy to use, and take runtime implementations into account. Based on these findings, we developed a **latency predictor based on low-overhead profiling using micro-benchmarks** to minimize the performance modeling overhead.
 
